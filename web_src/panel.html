@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Open Game Panel (OGP) :: Panel Install Guide</title>
+		<link type="text/css" rel="stylesheet" href="css/style.css"/>
+		<link type="text/css" rel="stylesheet" href="scripts/syntax/shCore.css"/>
+		<link type="text/css" rel="stylesheet" href="scripts/syntax/shThemeDefault.css"/>
+		<script type="text/javascript" src="scripts/jquery.js"></script>
+		<script type="text/javascript" src="scripts/instructions.js"></script>
+		<script type="text/javascript" src="scripts/syntax/shCore.js"></script>
+		<script type="text/javascript" src="scripts/syntax/shBrushBash.js"></script>
+		<script type="text/javascript">
+			SyntaxHighlighter.config.space = " ";
+			SyntaxHighlighter.all();
+		</script>
+	</head>
+	<body>
+		<h2 class="mainTitle center">Open Game Panel (OGP) :: <span class="green">Panel Install Guide</span></h2>
+		<h5 class="center"><a href="agent.html">Click Here for the OGP Agent Install Guide</a></h5>
+		<p>Note:&nbsp; If you run into any issues with any of the commands presented to you in this guide (such as in the case where a package cannot be found), do NOT worry and please continue on to the next line or command.&nbsp; The installation will succeed even if some packages fail to install.&nbsp; This happens because package names change in different operating system versions and these instructions are grouped generically.</p>
+		<h3 class="subTitle smallMarg">Select Your Operating System:</h3>
+		<select class="osSelect">
+			<option value="centos">CentOS</option>
+			<option value="debian">Debian</option>
+			<option value="redhat">RedHat</option>
+			<option value="rocky">Rocky Linux</option>
+			<option value="ubuntu" selected>Ubuntu</option>
+			<option value="windows">Windows</option>			
+		</select>
+		
+		<h3 class="hideItem subTitle hide osVersion noHideOsVersion smallMarg">Select OS Version:</h3>
+		<select class="hideItem osVersionSelect osVersion hide noHideOsVersion">
+		
+		</select>
+		
+		<hr class="hideItem hide osVersionRemoveHide spacer" />
+		
+		<div class="hideItem hide ubuntu14">
+			<h4 class="selectedOSItem">Prerequisites for <span class="osText"></span></h4>
+			<p>If you are running Ubuntu 14.04 or lower, run the following commands in a terminal:</p>
+			<pre class="brush: bash;">sudo apt-get install apache2 curl subversion php5 php5-gd php5-xmlrpc php5-curl php5-mysql php-pear mysql-server libapache2-mod-php5 git</pre>
+		</div>
+		
+		<div class="hideItem hide ubuntu16">
+			<h4 class="selectedOSItem">Prerequisites for <span class="osText"></span></h4>
+			<p>If you are running Ubuntu 16.04, run the following commands in a terminal:</p>
+			<pre class="brush: bash;">sudo apt-get install apache2 curl subversion php7.0 php7.0-gd php7.0-zip libapache2-mod-php7.0 php7.0-curl php7.0-mysql php7.0-xmlrpc php-pear mysql-server php7.0-mbstring php-gettext git php-bcmath</pre>
+		</div>
+		
+		<div class="hideItem hide ubuntu18">
+			<h4 class="selectedOSItem">Prerequisites for <span class="osText"></span></h4>
+			<p>If you are running Ubuntu 18.04, run the following commands in a terminal:</p>
+			<pre class="brush: bash;">sudo apt-get install apache2 curl subversion php7.2 php7.2-gd php7.2-zip libapache2-mod-php7.2 php7.2-curl php7.2-mysql php7.2-xmlrpc php-pear mysql-server php7.2-mbstring php-gettext git php-bcmath</pre>
+		</div>
+		
+		<div class="hideItem hide ubuntu20">
+			<h4 class="selectedOSItem">Prerequisites for <span class="osText"></span></h4>
+			<p>If you are running Ubuntu 20.04, run the following commands in a terminal:</p>
+			<pre class="brush: bash;">sudo apt-get install apache2 curl subversion php7.4 php7.4-gd php7.4-zip libapache2-mod-php7.4 php7.4-curl php7.4-mysql php7.4-xmlrpc php-pear mariadb-server-10.3 php7.4-mbstring git php-bcmath</pre>
+			<p>After installing mariadb-server-10.3, run this command to get MySQL to bind on all addresses:</p>
+			<pre class="brush: bash;">sudo sed -i "s/^bind-address.*/bind-address=0.0.0.0/g" "/etc/mysql/mariadb.conf.d/50-server.cnf"</pre>
+		</div>
+		
+		<div class="hideItem hide ubuntu22">
+			<h4 class="selectedOSItem">Prerequisites for <span class="osText"></span></h4>
+			<p>If you are running Ubuntu 22.04, run the following commands in a terminal:</p>
+			<pre class="brush: bash;">sudo apt-get install apache2 curl subversion php8.1 php8.1-gd php8.1-zip libapache2-mod-php8.1 php8.1-curl php8.1-mysql php8.1-xmlrpc php-pear mariadb-server-10.6 php8.1-mbstring git php-bcmath</pre>
+			<p>After installing mariadb-server-10.6, run this command to get MySQL to bind on all addresses:</p>
+			<pre class="brush: bash;">sudo sed -i "s/^bind-address.*/bind-address=0.0.0.0/g" "/etc/mysql/mariadb.conf.d/50-server.cnf"</pre>
+		</div>
+		
+		<!-- Debian Extra -->
+		
+		<div class="hideItem hide debian8 debian9 debian10 debian11 debian12">
+			<h4 class="selectedOSItem">Sudo Requirements for <span class="osText"></span></h4>
+			<p>If sudo is not installed automatically on your installation of Debian, switch to the root user using the below command:</p>
+			
+			<pre class="brush: bash;">su -
+apt-get install sudo
+usermod -aG sudo "{REPLACE_WITH_YOUR_LINUX_USERNAME}"</pre>	
+			
+		</div>
+		
+		<div class="hideItem hide debian11 debian12">
+			<h4 class="selectedOSItem">Additional Requirements for <span class="osText"></span></h4>
+			<p>Unlike other Linux distros, Debian doesn't set the $PATH variable correctly for everyday users.&nbsp; Fix it by using the below script:</p>
+			<p>First, login as root:</p>
+			<pre class="custom">su</pre>
+			<p>Run the below commands as root:</p>
+
+			<pre class="brush: bash;">whiUsermod=$(which usermod)
+if [ -z "$whiUsermod" ]; then
+	mkdir -p /root/backup/etc
+	cp /etc/profile /root/backup/etc
+	sed -i 's#PATH=".*"#PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/sbin:/usr/sbin:/usr/local/sbin"#g' /etc/profile
+	source /etc/profile
+fi</pre>
+
+			<p>Reboot for the changes to apply!</p>
+			<pre class="brush: bash;">shutdown -r now</pre>
+
+		</div>
+		
+		<div class="hideItem hide debian10">
+			<h4 class="selectedOSItem">Prerequisites for <span class="osText"></span></h4>
+			<p>If you are running Debian 10, run the following commands in a terminal:</p>
+			<pre class="brush: bash;">sudo apt-get install apache2 curl subversion php7.3 php7.3-gd php7.3-zip libapache2-mod-php7.3 php7.3-curl php7.3-mysql php7.3-xmlrpc php-pear mariadb-server php7.3-mbstring php-gettext git php-bcmath</pre>
+		</div>
+		
+		<div class="hideItem hide debian9">
+			<h4 class="selectedOSItem">Prerequisites for <span class="osText"></span></h4>
+			<p>If you are running Debian 9, run the following commands in a terminal:</p>
+			<pre class="brush: bash;">sudo apt-get install apache2 curl subversion php7.0 php7.0-gd php7.0-zip libapache2-mod-php7.0 php7.0-curl php7.0-mysql php7.0-xmlrpc php-pear mysql-server php7.0-mbstring php-gettext git php-bcmath</pre>
+		</div>
+		
+		<div class="hideItem hide debian8">
+			<h4 class="selectedOSItem">Prerequisites for <span class="osText"></span></h4>
+			<p>If you are running Debian 8, run the following commands in a terminal:</p>
+			<pre class="brush: bash;">sudo apt-get install apache2 curl subversion php5 php5-gd php5-xmlrpc php5-curl php5-mysql php-pear mysql-server libapache2-mod-php5 git</pre>
+		</div>
+		
+		<div class="hideItem hide debian12">
+			<h4 class="selectedOSItem">Prerequisites for <span class="osText"></span></h4>
+			<p>If you are running Debian 12, run the following commands in a terminal:</p>
+			<pre class="brush: bash;">sudo apt-get install apache2 curl subversion php8.2 php8.2-gd php8.2-zip libapache2-mod-php8.2 php8.2-curl php8.2-mysql php8.2-xmlrpc php-pear mariadb-server php8.2-mbstring git php-bcmath</pre>
+			<p>After installing mariadb-server, run this command to get MySQL to bind on all addresses:</p>
+			<pre class="brush: bash;">sudo sed -i "s/^bind-address.*/bind-address=0.0.0.0/g" "/etc/mysql/mariadb.conf.d/50-server.cnf"</pre>
+		</div>
+		
+		<div class="hideItem hide debian11">
+			<h4 class="selectedOSItem">Prerequisites for <span class="osText"></span></h4>
+			<p>If you are running Debian 11, run the following commands in a terminal:</p>
+			<pre class="brush: bash;">sudo apt-get install apache2 curl subversion php7.4 php7.4-gd php7.4-zip libapache2-mod-php7.4 php7.4-curl php7.4-mysql php7.4-xmlrpc php-pear mariadb-server php7.4-mbstring git php-bcmath</pre>
+			<p>After installing mariadb-server, run this command to get MySQL to bind on all addresses:</p>
+			<pre class="brush: bash;">sudo sed -i "s/^bind-address.*/bind-address=0.0.0.0/g" "/etc/mysql/mariadb.conf.d/50-server.cnf"</pre>
+		</div>
+		
+		<div class="hideItem hide ubuntu14 ubuntu16 ubuntu18 ubuntu20 ubuntu22 debian8 debian9 debian10 debian11 debian12">
+			<h4 class="selectedOSItem">Configuring the Database for <span class="osText"></span></h4>
+			<p>After installing the prereqs, make sure the root MySQL account has been setup by running this command (may not apply to older versions of Debian / Ubuntu):</p>
+			<pre class="brush: bash;">sudo mysql_secure_installation</pre>
+			<p>When installing MySQL / MariaDB, make sure you answer the following questions like this:</p>
+
+			<pre class="brush: bash;">Switch to unix_socket authentication [Y/n] n (no, don't do this)
+Change the root password? [Y/n] y (yes, do this, and write down the password you use)</pre>
+
+			<p>During this process, you will be prompted to set a root user password. Please choose something secure and write it down, as the installer will ask you for it to create the initial OGP database later.</p>
+			<p>Be sure to write down the root password you used somewhere, as it will be used in the next step!</p>
+			
+			<p>After installing and setting the root password for MySQL / MariaDB server, you can install the phpmyadmin package and configure it (optional):</p>
+			
+			<pre class="brush: bash;">sudo apt-get install phpmyadmin</pre>
+		</div>
+		
+		<div class="hideItem hide ubuntu14 ubuntu16 ubuntu18 ubuntu20 ubuntu22 debian8 debian9 debian10 debian11 debian12">
+			<h4 class="selectedOSItem">Installing the Panel Package for <span class="osText"></span></h4>
+			<p>Now, we can download and install the latest OGP Web Panel DEB package:</p>
+
+			<pre class="brush: bash;">wget -N "https://github.com/OpenGamePanel/Easy-Installers/raw/master/Linux/Debian-Ubuntu/ogp-panel-latest.deb" -O "ogp-panel-latest.deb"
+sudo dpkg -i "ogp-panel-latest.deb"</pre>
+
+			<p>Once this is done, open the browser and go to http://{IP_OF_SERVER_OR_localhost}/index.php</p>
+			<p>Try http://127.0.0.1/index.php if localhost doesn't work.</p>
+
+			<p>You will be prompted to complete the OGP Panel installation. When asked for database information, please use the following:</p>
+
+			<p>MySQL Host = "localhost"<br />
+				MySQL User = "ogpuser"<br />
+				MySQL Database Name = "ogp_panel"</p>
+				
+			<p>
+				You'll also need your database password which can be found by running the following command:
+			</p>
+
+			<pre class="brush: bash;">sudo cat /root/ogp_panel_mysql_info</pre>
+
+			<p>The password is what follows after "OGPDBPass=" as illustrated below:</p>
+
+			<pre class="brush: bash;">OGPDBPass=SampleDBPass</pre>
+
+			<p>Once you've completed the web panel installation, you need to add the server that will be running the game servers to the web panel software. You will need the IP address of the server running the agent (127.0.0.1 if on the same machine), and the encryption key for that machine which you can obtain by running the following command on that server:</p>
+
+			<pre class="brush: bash;">sudo cat /root/ogp_user_password</pre>
+
+			<p>The encryption key is what follows after "ogpEnc=" as illustrated below:</p>
+
+			<pre class="brush: bash;">ogpEnc=sampl13eKey</pre>
+
+			<p>Once the panel has been installed, please run the panel update functionality by logging in as the admin account created during installation.</p>
+
+			<p>Hover over the "Administration" tab, and then click on "Update Panel" in the drop-down. Then click on the "Update" button.</p>
+
+		</div>
+		
+		<div class="hideItem hide rocky9 redhat9 centos6 centos7 centos8">
+			<h4 class="selectedOSItem">Global Installation Notes for <span class="osText"></span></h4>
+			<p>When installing MySQL / MariaDB, make sure you answer the following questions like this:</p>
+
+			<pre class="brush: bash;">Switch to unix_socket authentication [Y/n] n (no, don't do this)
+Change the root password? [Y/n] y (yes, do this, and write down the password you use)</pre>
+
+			<p>During the MySQL installation, you will be prompted to set a root user password. Set a password for the root account, and write down the password you use, as you will need it later.</p>
+
+		</div>
+		
+		<div class="hideItem hide rocky9 redhat9">
+			<h4 class="selectedOSItem">Prerequisites for <span class="osText"></span></h4>
+			<p>Run the following commands in a terminal to install the needed dependency packages:</p>
+			<pre class="brush: bash;">sudo yum -y update
+sudo dnf install epel-release
+sudo yum -y install epel-release wget subversion git
+sudo yum -y install mariadb-server
+sudo service mariadb restart
+sudo mysql_secure_installation
+sudo dnf config-manager --set-enabled crb
+sudo yum -y install php
+sudo yum -y install php-pear
+sudo yum -y install php-devel
+sudo yum -y install php-mysqlnd php-json php-zip php-bcmath</pre>
+		</div>
+		
+		<div class="hideItem hide centos8">
+			<h4 class="selectedOSItem">Prerequisites for <span class="osText"></span></h4>
+			<p>Run the following commands in a terminal to install the needed dependency packages:</p>
+			<pre class="brush: bash;">sudo yum -y update
+sudo dnf install epel-release
+sudo yum -y install epel-release wget subversion git
+sudo yum -y install mariadb-server
+sudo service mariadb restart
+sudo mysql_secure_installation
+sudo dnf config-manager --set-enabled powertools
+sudo yum -y install php php-xmlrpc php-mysqlnd php-json php-zip php-bcmath</pre>
+		</div>
+		
+		<div class="hideItem hide centos7">
+			<h4 class="selectedOSItem">Prerequisites for <span class="osText"></span></h4>
+			<p>Run the following commands in a terminal to install the needed dependency packages:</p>
+			<pre class="brush: bash;">sudo yum -y install epel-release wget subversion git
+sudo yum -y install mariadb-server
+sudo service mariadb restart
+sudo mysql_secure_installation
+sudo yum -y install php php-xmlrpc php-mysql phpMyAdmin</pre>
+		</div>
+		
+		<div class="hideItem hide centos6">
+			<h4 class="selectedOSItem">Prerequisites for <span class="osText"></span></h4>
+			<p>Run the following commands in a terminal to install the needed dependency packages:</p>
+			<pre class="brush: bash;">sudo yum -y install epel-release wget subversion git
+sudo yum -y install mysql-server
+sudo service mysqld restart
+sudo mysql_secure_installation
+sudo chkconfig mysqld on
+sudo yum -y install php php-xmlrpc php-mysql phpMyAdmin</pre>
+		</div>
+		
+		
+		<div class="hideItem hide rocky9 redhat9 centos6 centos7 centos8">
+			<h4 class="selectedOSItem">Installing the OGP Panel Package for <span class="osText"></span></h4>
+			<p>Now, we can download and install the OGP Web Panel RPM:</p>
+			<pre class="brush: bash;">wget -N "https://github.com/OpenGamePanel/Easy-Installers/raw/master/Linux/CentOS/ogp_panel_rpm-1.0.0-1.noarch.rpm" -O "ogp_panel.rpm"
+sudo yum -y install "ogp_panel.rpm"</pre>
+
+			<p>Patience. It may take between 5 and 10 minutes before this step completes!</p>
+
+			<p>Run the following bash script to create a database, user, and password for the OGP web panel software:</p>
+
+			<pre class="brush: bash;">sudo bash /var/www/html/create_db.sh</pre>
+
+			<p>After running the script, restart your server! This is very important. If you do NOT restart, you will have problems completing the web installation.</p>
+			
+			<pre class="brush: bash;">sudo shutdown -r now</pre>
+
+			<p>Once the server has been restarted, open a browser such as Firefox. Go to http://localhost or access it remotely by using your server's IP address http://{IP}/.</p>
+			
+			<p>Try http://127.0.0.1 if localhost doesn't work.</p>
+
+			<p>You will be prompted to complete the installation. When asked for the database information, use the following:</p>
+
+			<p>
+MySQL Host = "localhost"<br />
+MySQL User = "ogpuser"<br />
+MySQL Database Name = "ogp_panel"
+</p>
+			<p>You'll need the database password which you can obtain by running this command:</p>
+
+			<pre class="brush: bash;">sudo cat /root/ogp_panel_mysql_info</pre>
+
+			<p>Once you've completed the web panel installation, you need to add the server that will be running the game servers to the web panel software. You will need the IP address of the server running the agent (127.0.0.1 if on the same machine), and the encryption key for that machine which you can obtain by running the following command on that server:</p>
+
+			<p>Get your OGP Encryption Key:</p>
+
+			<pre class="brush: bash;">sudo cat /root/ogp_enc_key</pre>
+
+		</div>
+		
+		<div class="hideItem hide centos6">
+			<h4 class="selectedOSItem"><span class="osText"></span> iptables Firewall Issues</h4>
+			<p>If the OGP Panel Setup webpage won't load, try adjusting your iptables rules.</p>
+
+			<p>For some reason, CentOS 6 sets its default firewall policy to reject. To make your life easier, you might want to remove the reject rule by running the following (applies to CentOS 6 ONLY):</p>
+
+			<pre class="brush: bash;">sudo iptables -D INPUT 5
+sudo service iptables save
+sudo service iptables restart</pre>
+
+			<p>Or, if you want to keep the default policy, at the minimum, you may want to run this (adjust eth0 if necessary for your system):</p>
+			
+			<pre class="brush: bash;">sudo iptables -I INPUT 5 -i eth0 -p tcp -m tcp --dport 80 -j ACCEPT
+sudo iptables -I INPUT 5 -i eth0 -p tcp -m tcp --dport 443 -j ACCEPT
+sudo service iptables save
+sudo service iptables restart</pre>
+
+		</div>
+		
+		<div class="hideItem hide win64">
+			
+			<h4 class="selectedOSItem"><span class="osText"></span> Install Instructions</h4>
+			
+			<p>If you haven't done so already, <a href="images/create_admin_user_cyg_server.png" target="_blank">create an administrative user with the username of cyg_server</a> with a password that never expires and can't be changed.</p>
+
+			<p>To install, download and run the Windows x64 installer:</p>
+			
+			<h4 class="selectedOSItem"><a href="https://raw.githubusercontent.com/OpenGamePanel/Easy-Installers/master/Windows/OGP%20Panel%2064bit%20Setup.exe" target="_blank">Download Open Game Panel (OGP) Panel Setup for Windows 64-bit (x64)</a></h4>
+			
+			<p>Make sure to <span class="bold">run the installer as an administrator user</span>!&nbsp; You can do this by right-clicking on the executable and clicking on "Run as administrator".</p>
+			
+			<p>This package installs all of the Cygwin dependencies automatically. Simply execute the installer and follow the instructions.</p>
+			
+			<p>After the server has been rebooted, browse to http://localhost/ or http://127.0.0.1 to install and configure the web panel.&nbsp; Use the following values for the various configuration fields<br /><br />
+
+Database Hostname: localhost<br />
+Database Username: root<br />
+Database Name: ogp_panel<br />
+Database Password: The root MySQL user password you created during installation.</p>
+
+			<p><span class="bold">DO NOT install</span> the OGP Agent or OGP Panel Cygwin files to <span class="bold">C:\Program Files\ or C:\Program Files (x86)</span> due to Windows permissions issues.</p>
+
+			<p><span class="bold">It is recommended</span> to use <span class="bold">the default of C:\OGP or C:\OGP64</span> depending on your OS for best results.</p>
+			
+		</div>
+		
+		<div class="hideItem hide win32">
+			<h4 class="selectedOSItem"><span class="osText"></span> Install Instructions</h4>
+			
+			<p>If you haven't done so already, <a href="images/create_admin_user_cyg_server.png" target="_blank">create an administrative user with the username of cyg_server</a> with a password that never expires and can't be changed.</p>
+
+			<p>To install, download and run the Windows x86 installer:</p>
+			
+			<h4 class="selectedOSItem"><a href="https://raw.githubusercontent.com/OpenGamePanel/Easy-Installers/master/Windows/OGP%20Panel%20Setup.exe" target="_blank">Download Open Game Panel (OGP) Panel Setup for Windows 32-bit (x86)</a></h4>
+			
+			<p>Make sure to <span class="bold">run the installer as an administrator user</span>!&nbsp; You can do this by right-clicking on the executable and clicking on "Run as administrator".</p>
+			
+			<p>This package installs all of the Cygwin dependencies automatically. Simply execute the installer and follow the instructions.</p>
+			
+			<p>After the server has been rebooted, browse to http://localhost/ or http://127.0.0.1 to install and configure the web panel.&nbsp; Use the following values for the various configuration fields<br /><br />
+
+Database Hostname: localhost<br />
+Database Username: root<br />
+Database Name: ogp_panel<br />
+Database Password: The root MySQL user password you created during installation.</p>
+
+			<p><span class="bold">DO NOT install</span> the OGP Agent or OGP Panel Cygwin files to <span class="bold">C:\Program Files\ or C:\Program Files (x86)</span> due to Windows permissions issues.</p>
+
+			<p><span class="bold">It is recommended</span> to use <span class="bold">the default of C:\OGP or C:\OGP64</span> depending on your OS for best results.</p>
+			
+		</div>
+		
+	</body>
+</html>

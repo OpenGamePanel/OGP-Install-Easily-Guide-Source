@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Open Game Panel (OGP) :: Agent Install Guide</title>
+		<link type="text/css" rel="stylesheet" href="css/style.css"/>
+		<link type="text/css" rel="stylesheet" href="scripts/syntax/shCore.css"/>
+		<link type="text/css" rel="stylesheet" href="scripts/syntax/shThemeDefault.css"/>
+		<script type="text/javascript" src="scripts/jquery.js"></script>
+		<script type="text/javascript" src="scripts/instructions.js"></script>
+		<script type="text/javascript" src="scripts/syntax/shCore.js"></script>
+		<script type="text/javascript" src="scripts/syntax/shBrushBash.js"></script>
+		<script type="text/javascript">
+			SyntaxHighlighter.config.space = " ";
+			SyntaxHighlighter.all();
+		</script>
+	</head>
+	<body>
+		<h2 class="mainTitle center">Open Game Panel (OGP) :: <span class="red">Agent Install Guide</span></h2>
+		<h5 class="center"><a href="panel.html">Click Here for the OGP Panel Install Guide</a></h5>
+		<p>Note:&nbsp; If you run into any issues with any of the commands presented to you in this guide (such as in the case where a package cannot be found), do NOT worry and please continue on to the next line or command.&nbsp; The installation will succeed even if some packages fail to install.&nbsp; This happens because package names change in different operating system versions and these instructions are grouped generically.</p>
+		<h3 class="subTitle smallMarg">Select Your Operating System:</h3>
+		<select class="osSelect">
+			<option value="centos">CentOS</option>
+			<option value="debian">Debian</option>
+			<option value="redhat">RedHat</option>
+			<option value="rocky">Rocky Linux</option>
+			<option value="ubuntu" selected>Ubuntu</option>
+			<option value="windows">Windows</option>			
+		</select>
+		
+		<h3 class="hideItem subTitle hide osVersion noHideOsVersion smallMarg">Select OS Version:</h3>
+		<select class="hideItem osVersionSelect osVersion hide noHideOsVersion">
+		
+		</select>
+		
+		<hr class="hideItem hide osVersionRemoveHide spacer" />
+		
+		<!-- Debian Extra -->
+		
+		<div class="hideItem hide debian8 debian9 debian10 debian11 debian12">
+			<h4 class="selectedOSItem">Prerequisites for <span class="osText"></span></h4>
+			<p>If sudo is not installed automatically on your installation of Debian, switch to the root user using the below command:</p>
+			
+			<pre class="brush: bash;">su -
+apt-get install sudo
+usermod -aG sudo "{REPLACE_WITH_YOUR_LINUX_USERNAME}"</pre>	
+			
+		</div>
+		
+		<div class="hideItem hide debian11 debian12">
+			<h4 class="selectedOSItem">Additional Requirements for <span class="osText"></span></h4>
+			<p>Unlike other Linux distros, Debian doesn't set the $PATH variable correctly for everyday users.&nbsp; Fix it by using the below script:</p>
+			<p>First, login as root:</p>
+			<pre class="custom">su</pre>
+			<p>Run the below commands as root:</p>
+
+			<pre class="brush: bash;">whiUsermod=$(which usermod)
+if [ -z "$whiUsermod" ]; then
+	mkdir -p /root/backup/etc
+	cp /etc/profile /root/backup/etc
+	sed -i 's#PATH=".*"#PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/sbin:/usr/sbin:/usr/local/sbin"#g' /etc/profile
+	source /etc/profile
+fi</pre>
+
+			<p>Reboot for the changes to apply!</p>
+			<pre class="brush: bash;">shutdown -r now</pre>
+
+		</div>
+		
+		<!-- End Debian Extra -->
+		
+		<div class="hideItem hide debian8 debian9 debian10 debian11 debian12">
+			<h4 class="selectedOSItem">OGP Agent Packages for <span class="osText"></span></h4>
+
+			<p>Before we can install the deb package for the OGP Agent, we need to install some prerequisites by running the following commands:</p>
+			
+			<pre class="brush: bash;">sudo apt-get install libxml-parser-perl libpath-class-perl perl-modules screen rsync sudo e2fsprogs unzip subversion pure-ftpd libarchive-zip-perl libc6 libgcc1 git curl
+sudo apt-get install libc6-i386
+sudo apt-get install lib32gcc1
+sudo apt-get install lib32gcc-s1
+sudo apt-get install libhttp-daemon-perl
+sudo apt-get install libarchive-extract-perl</pre>
+		</div>
+		
+		<div class="hideItem hide ubuntu14 ubuntu16 ubuntu18 ubuntu20 ubuntu22">
+			<h4 class="selectedOSItem">OGP Agent Packages for <span class="osText"></span></h4>
+
+			<p>Before we can install the deb package for the OGP Agent, we need to install some prerequisites by running the following commands:</p>
+			
+			<pre class="brush: bash;">sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install libxml-parser-perl libpath-class-perl perl-modules screen rsync sudo e2fsprogs unzip subversion libarchive-extract-perl pure-ftpd libarchive-zip-perl libc6 libgcc1 git curl
+sudo apt-get install libc6-i386
+sudo apt-get install libgcc1:i386
+sudo apt-get install lib32gcc1
+sudo apt-get install lib32gcc-s1
+sudo apt-get install libhttp-daemon-perl</pre>
+		</div>
+
+		<div class="hideItem hide ubuntu14 ubuntu16 ubuntu18 ubuntu20 ubuntu22 debian8 debian9 debian10 debian11 debian12">
+			<p>
+				Now, we can download and install the OGP Agent DEB package:
+			</p>
+			<pre class="brush: bash;">wget -N "https://github.com/OpenGamePanel/Easy-Installers/raw/master/Linux/Debian-Ubuntu/ogp-agent-latest.deb" -O "ogp-agent-latest.deb"
+sudo dpkg -i "ogp-agent-latest.deb"</pre>
+
+		</div>
+
+
+		<div class="hideItem hide ubuntu14 ubuntu16 ubuntu18 ubuntu20 ubuntu22 debian8 debian9 debian10 debian11 debian12">
+			<p>The OGP agent user (with sudo access) will be created automatically for you by the installer with a random password. To view the automatically generated encryption key, OGP username, and OGP user password, run the following command:</p>
+			<pre class="brush: bash;">sudo cat /root/ogp_user_password</pre>
+			<p>You'll need the encryption key for the panel.</p>
+		</div>
+
+
+		<div class="hideItem hide rocky9 redhat9">
+			<h4 class="selectedOSItem">OGP Agent Packages for <span class="osText"></span></h4>
+			<p>Install the needed packages for the OGP agent by running the commands below:</p>
+			<pre class="brush: bash;">sudo yum -y update
+sudo dnf install epel-release
+sudo yum -y install epel-release wget subversion git
+sudo dnf config-manager --set-enabled crb
+sudo dnf --enablerepo=crb -y install perl-HTTP-Daemon
+sudo yum install -y perl-HTTP-Daemon perl-LWP-Protocol-http10 proftpd proftpd-utils perl-ExtUtils-MakeMaker glibc.i686 glibc libgcc_s.so.1 perl-IO-Compress-Bzip2
+sudo dnf -y install perl-CPAN
+sudo cpan Archive::Extract
+sudo yum -y install screen perl-Path-Class perl-XML-Parser</pre>
+
+		</div>
+		
+		<div class="hideItem hide centos8">
+			<h4 class="selectedOSItem">OGP Agent Packages for <span class="osText"></span></h4>
+			<p>Install the needed packages for the OGP agent by running the commands below:</p>
+			<pre class="brush: bash;">sudo yum -y update
+sudo dnf install epel-release
+sudo yum -y install epel-release wget subversion git
+sudo dnf config-manager --set-enabled powertools
+sudo dnf --enablerepo=powertools -y install perl-HTTP-Daemon
+sudo yum install -y perl-HTTP-Daemon perl-LWP-Protocol-http10 proftpd proftpd-utils perl-ExtUtils-MakeMaker glibc.i686 glibc libgcc_s.so.1 perl-IO-Compress-Bzip2
+sudo dnf -y install perl-CPAN
+sudo cpan Archive::Extract
+sudo yum -y install screen perl-Path-Class perl-XML-Parser</pre>
+
+		</div>
+		
+		<div class="hideItem hide centos7">
+			<h4 class="selectedOSItem">OGP Agent Packages for <span class="osText"></span></h4>
+			<p>Install the needed packages for the OGP agent by running the commands below:</p>
+			<pre class="brush: bash;">sudo yum -y update
+sudo yum -y install epel-release wget subversion git
+sudo yum install -y perl-HTTP-Daemon perl-LWP-Protocol-http10 proftpd proftpd-utils perl-ExtUtils-MakeMaker glibc.i686 glibc libgcc_s.so.1 perl-IO-Compress-Bzip2
+sudo yum install -y perl-Archive-Extract</pre>
+		</div>
+		
+		<div class="hideItem hide centos6">
+			<h4 class="selectedOSItem">OGP Agent Packages for <span class="osText"></span></h4>
+			<p>Install the needed packages for the OGP agent by running the commands below:</p>
+			<pre class="brush: bash;">sudo yum -y update
+sudo yum -y install epel-release wget subversion git
+sudo yum install -y perl-libwww-perl proftpd proftpd-utils perl-ExtUtils-MakeMaker glibc.i686 glibc libgcc_s.so.1 perl-IO-Compress-Bzip2
+sudo yum install -y perl-Archive-Extract</pre>
+		</div>
+		
+		<div class="hideItem hide centos6 centos7 centos8 rocky9 redhat9">
+		
+			<p>Now, we can download and install the OGP Agent RPM package:</p>
+
+			<pre class="brush: bash;">sudo yum -y install chkconfig
+wget -N "https://github.com/OpenGamePanel/Easy-Installers/raw/master/Linux/CentOS/ogp_agent_rpm-1.0.0-1.noarch.rpm" -O "ogp_agent.rpm"
+sudo yum install -y "ogp_agent.rpm"
+sudo service ogp_agent restart
+sudo chkconfig proftpd on
+sudo service ogp_agent restart</pre>
+
+			<p>The agent needs to be restarted twice since it will most likely update to using systemd.</p>
+		
+		</div>
+		
+		<div class="hideItem hide centos6">
+			<h4 class="selectedOSItem"><span class="osText"></span> ProFTPD Final Step</h4>
+
+			<p>To get ProFTPD working in CentOS 6 (only applies to version 6), run this command:</p>
+	
+			<pre class="brush: bash;">sudo sed -i "s/^LoadModule\( \)*mod_auth_file.c/#LoadModule mod_auth_file.c/g" "/etc/proftpd.conf"
+sudo service proftpd restart</pre>
+
+			<p>If you don't do this, FTP functionality in the panel may not work correctly on CentOS 6</p>
+			
+		</div>
+			
+			
+		<div class="hideItem hide centos6 centos7 centos8 rocky9 redhat9">
+			<h4 class="selectedOSItem"><span class="osText"></span> Final Information</h4>
+			
+			<p>To retrieve your automatically generated encryption key (needed by the panel), run this command:</p>
+
+			<pre class="brush: bash;">sudo cat /root/ogp_enc_key</pre>
+
+			<p>To retrieve the automatically generated OGP user password (with sudo access), run this command:</p>
+
+			<pre class="brush: bash;">sudo cat /root/ogp_user_sudo_pass</pre>
+
+			<p>The OGP username is ogp_agent</p>
+			
+		</div>
+		
+		<div class="hideItem hide win64">
+			<h4 class="selectedOSItem"><span class="osText"></span> FileZilla Instructions</h4>
+			
+			<p>If you want OGP to manage FTP accounts, you will need to download and install FileZilla Server. Install FileZilla Server to the default directory. Do this before installing the agent. Leave all of FileZilla's settings to their default values during installation or you may have problems!</p>
+
+			<p>DO NOT USE NEWER VERSIONS OF FileZilla Server. Only <a href="https://download.filezilla-project.org/server/FileZilla_Server-0_9_60_2.exe" target="_blank">version 0_9_60_2</a> [<a href="https://opengamepanel.org/files/FileZilla_Server-0_9_60_2.exe" target="_blank">Mirror</a>] is supported.
+
+			<p>Make sure to <span class="bold">run the installer as an administrator user</span>!&nbsp; You can do this by right-clicking on the executable and clicking on "Run as administrator".</p>
+			
+			<h4 class="selectedOSItem"><span class="osText"></span> Install Instructions</h4>
+			
+			<p>If you haven't done so already, <a href="images/create_admin_user_cyg_server.png" target="_blank">create an administrative user with the username of cyg_server</a> with a password that never expires and can't be changed.</p>
+
+			<p>To install, download and run the Windows x64 installer:</p>
+			
+			<h4 class="selectedOSItem"><a href="https://raw.githubusercontent.com/OpenGamePanel/Easy-Installers/master/Windows/OGP%20Agent%2064bit%20Setup.exe" target="_blank">Download Open Game Panel (OGP) Agent Setup for Windows 64-bit (x64)</a></h4>
+			
+			<p>Make sure to <span class="bold">run the installer as an administrator user</span>!&nbsp; You can do this by right-clicking on the executable and clicking on "Run as administrator".</p>			
+
+			<p>This package installs all of the Cygwin dependencies automatically. Simply execute the installer and follow the instructions.</p>
+
+			<p><span class="bold">DO NOT install</span> the OGP Agent or OGP Panel Cygwin files to <span class="bold">C:\Program Files\ or C:\Program Files (x86)</span> due to Windows permissions issues.</p>
+
+			<p><span class="bold">It is recommended</span> to use <span class="bold">the default of C:\OGP or C:\OGP64</span> depending on your OS for best results.</p>
+			
+		</div>
+		
+		<div class="hideItem hide win32">
+			<h4 class="selectedOSItem"><span class="osText"></span> Install Instructions</h4>
+			
+			<p>If you haven't done so already, <a href="images/create_admin_user_cyg_server.png" target="_blank">create an administrative user with the username of cyg_server</a> with a password that never expires and can't be changed.</p>
+
+			<p>To install, download and run the Windows x86 installer:</p>
+			
+			<h4 class="selectedOSItem"><a href="https://raw.githubusercontent.com/OpenGamePanel/Easy-Installers/master/Windows/OGP%20Agent%20Setup.exe" target="_blank">Download Open Game Panel (OGP) Agent Setup for Windows 32-bit (x86)</a></h4>
+			
+			<p>Make sure to <span class="bold">run the installer as an administrator user</span>!&nbsp; You can do this by right-clicking on the executable and clicking on "Run as administrator".</p>
+			
+			<p>This package installs all of the Cygwin dependencies automatically. Simply execute the installer and follow the instructions.</p>
+			
+			<p>FileZilla is not needed on x86 versions of Windows since the Cygwin FTP package works out of the box. FileZilla Server is only recommended for 64-bit versions of Windows paired along with the OGP Agent.</p>
+
+			<p><span class="bold">DO NOT install</span> the OGP Agent or OGP Panel Cygwin files to <span class="bold">C:\Program Files\ or C:\Program Files (x86)</span> due to Windows permissions issues.</p>
+
+			<p><span class="bold">It is recommended</span> to use <span class="bold">the default of C:\OGP or C:\OGP64</span> depending on your OS for best results.</p>
+			
+		</div>
+		
+	</body>
+</html>
