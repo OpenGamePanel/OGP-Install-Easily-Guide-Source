@@ -16,7 +16,7 @@ function bind(){
 		$('.osVersionSelect').html('');
 		
 		if(selected == "ubuntu"){
-			$('.osVersionSelect').html('').html('<option value="">&nbsp; &nbsp; &nbsp; &nbsp; </option><option value="ubuntu14">14.04</option><option value="ubuntu16">16.04</option><option value="ubuntu18">18.04</option><option value="ubuntu20">20.04</option><option value="ubuntu22">22.04</option>');
+			$('.osVersionSelect').html('').html('<option value="">&nbsp; &nbsp; &nbsp; &nbsp; </option><option value="ubuntu14">14.04</option><option value="ubuntu16">16.04</option><option value="ubuntu18">18.04</option><option value="ubuntu20">20.04</option><option value="ubuntu22">22.04</option><option value="ubuntu24">24.04</option>');
 		}else if(selected == "debian"){
 			$('.osVersionSelect').html('').html('<option value="">&nbsp; &nbsp; &nbsp; &nbsp; </option><option value="debian8">8</option><option value="debian9">9</option><option value="debian10">10</option><option value="debian11">11</option><option value="debian12">12</option>');
 		}else if(selected == "rocky"){

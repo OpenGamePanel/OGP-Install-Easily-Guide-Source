@@ -82,7 +82,7 @@ sudo apt-get install libhttp-daemon-perl
 sudo apt-get install libarchive-extract-perl</pre>
 		</div>
 		
-		<div class="hideItem hide ubuntu14 ubuntu16 ubuntu18 ubuntu20 ubuntu22">
+		<div class="hideItem hide ubuntu14 ubuntu16 ubuntu18 ubuntu20 ubuntu22 ubuntu24">
 			<h4 class="selectedOSItem">OGP Agent Packages for <span class="osText"></span></h4>
 
 			<p>Before we can install the deb package for the OGP Agent, we need to install some prerequisites by running the following commands:</p>
@@ -97,7 +97,7 @@ sudo apt-get install lib32gcc-s1
 sudo apt-get install libhttp-daemon-perl</pre>
 		</div>
 
-		<div class="hideItem hide ubuntu14 ubuntu16 ubuntu18 ubuntu20 ubuntu22 debian8 debian9 debian10 debian11 debian12">
+		<div class="hideItem hide ubuntu14 ubuntu16 ubuntu18 ubuntu20 ubuntu22 ubuntu24 debian8 debian9 debian10 debian11 debian12">
 			<p>
 				Now, we can download and install the OGP Agent DEB package:
 			</p>
@@ -107,7 +107,7 @@ sudo dpkg -i "ogp-agent-latest.deb"</pre>
 		</div>
 
 
-		<div class="hideItem hide ubuntu14 ubuntu16 ubuntu18 ubuntu20 ubuntu22 debian8 debian9 debian10 debian11 debian12">
+		<div class="hideItem hide ubuntu14 ubuntu16 ubuntu18 ubuntu20 ubuntu22 ubuntu24 debian8 debian9 debian10 debian11 debian12">
 			<p>The OGP agent user (with sudo access) will be created automatically for you by the installer with a random password. To view the automatically generated encryption key, OGP username, and OGP user password, run the following command:</p>
 			<pre class="brush: bash;">sudo cat /root/ogp_user_password</pre>
 			<p>You'll need the encryption key for the panel.</p>
@@ -210,7 +210,7 @@ sudo service proftpd restart</pre>
 			
 			<p>If you want OGP to manage FTP accounts, you will need to download and install FileZilla Server. Install FileZilla Server to the default directory. Do this before installing the agent. Leave all of FileZilla's settings to their default values during installation or you may have problems!</p>
 
-			<p>DO NOT USE NEWER VERSIONS OF FileZilla Server. Only <a href="https://download.filezilla-project.org/server/FileZilla_Server-0_9_60_2.exe" target="_blank">version 0_9_60_2</a> [<a href="https://opengamepanel.org/files/FileZilla_Server-0_9_60_2.exe" target="_blank">Mirror</a>] is supported.
+			<p>DO NOT USE NEWER VERSIONS OF FileZilla Server. Only <a href="https://opengamepanel.org/files/FileZilla_Server-0_9_60_2.exe" target="_blank">version 0_9_60_2</a> [<a href="https://xfiles.ezpz.cc/files/FileZilla_Server-0_9_60_2.exe" target="_blank">Mirror</a>] is supported.
 
 			<p>Make sure to <span class="bold">run the installer as an administrator user</span>!&nbsp; You can do this by right-clicking on the executable and clicking on "Run as administrator".</p>
 			
@@ -218,9 +218,11 @@ sudo service proftpd restart</pre>
 			
 			<p>If you haven't done so already, <a href="images/create_admin_user_cyg_server.png" target="_blank">create an administrative user</a> with the username of cyg_server with a password that never expires and can't be changed.</p>
 
-			<p>To install, download and run the Windows x64 installer:</p>
+			<p>To install, download and run the Windows x64 installer as an administrator user:</p>
 			
 			<h4 class="selectedOSItem"><a href="https://raw.githubusercontent.com/OpenGamePanel/Easy-Installers/master/Windows/OGP%20Agent%2064bit%20Setup.exe" target="_blank">Download Open Game Panel (OGP) Agent Setup for Windows 64-bit (x64)</a></h4>
+			
+			<p class="error">Make sure you <span class="red bold">use an encryption key for the agent that is less than or equal to 16 characters in length</span>.</p>
 			
 			<p>Make sure to <span class="bold">run the installer as an administrator user</span>!&nbsp; You can do this by right-clicking on the executable and clicking on "Run as administrator".</p>			
 
@@ -230,6 +232,11 @@ sudo service proftpd restart</pre>
 
 			<p><span class="bold">It is recommended</span> to use <span class="bold">the default of C:\OGP or C:\OGP64</span> depending on your OS for best results.</p>
 			
+			<p class="error">Post install, if <span class="red bold">you cannot connect the panel to the agent</span> (and are getting an invalid encryption key error despite using the key that you set that is 16 characters or less in length), go to the install directory (typically C:\OGP64) and double click on the agent_stop.bat file.&nbsp; Wait 15 seconds, and then double click on agent_start.bat file.&nbsp; This will run the agent in a way where you can see the output in a command prompt window.&nbsp; This should also trigger Windows Firewall detection for perl.exe which is a process used by the OGP Agent.&nbsp;  Grant perl access to public networks, and once the Windows Firewall rule has been created (where you granted access), restart your server, and try connecting the panel to the agent again using the correct encryption key.</p>
+			
+			<p>Create an Inbound Windows Firewall Rule allowing port 21 over TCP as well if you're using OGP to manage FTP via FileZilla.&nbsp; You will also need to set a <a href="images/passive_filezilla_port_settings.png" target="_blank">passive port range</a> for FileZilla Server in Edit -> Settings -> Passive mode settings.&nbsp; For example, I used 2000 to port 2100 for passive connections.&nbsp; Make sure you create an Inbound Rule for these ports as well in Windows Firewall.</p>
+		
+			<p>You will also need to create the appropriate Windows Firewall Inbound and Outbound rules for each individual game server (open the host port, query port[s], and any other ports the game server uses).</p>
 		</div>
 		
 		<div class="hideItem hide win32">
@@ -237,9 +244,11 @@ sudo service proftpd restart</pre>
 			
 			<p>If you haven't done so already, <a href="images/create_admin_user_cyg_server.png" target="_blank">create an administrative user</a> with the username of cyg_server with a password that never expires and can't be changed.</p>
 
-			<p>To install, download and run the Windows x86 installer:</p>
+			<p>To install, download and run the Windows x86 installer as an administrator user:</p>
 			
 			<h4 class="selectedOSItem"><a href="https://raw.githubusercontent.com/OpenGamePanel/Easy-Installers/master/Windows/OGP%20Agent%20Setup.exe" target="_blank">Download Open Game Panel (OGP) Agent Setup for Windows 32-bit (x86)</a></h4>
+			
+			<p class="error">Make sure you <span class="red bold">use an encryption key for the agent that is less than or equal to 16 characters in length</span>.</p>
 			
 			<p>Make sure to <span class="bold">run the installer as an administrator user</span>!&nbsp; You can do this by right-clicking on the executable and clicking on "Run as administrator".</p>
 			
@@ -251,6 +260,11 @@ sudo service proftpd restart</pre>
 
 			<p><span class="bold">It is recommended</span> to use <span class="bold">the default of C:\OGP or C:\OGP64</span> depending on your OS for best results.</p>
 			
+			<p>Post install, if <span class="red bold">you cannot connect the panel to the agent</span> (and are getting an invalid encryption key error despite using the key that you set that is 16 characters or less in length), go to the install directory (typically C:\OGP) and double click on the agent_stop.bat file.&nbsp; Wait 15 seconds, and then double click on agent_start.bat file.&nbsp; This will run the agent in a way where you can see the output in a command prompt window.&nbsp; This should also trigger Windows Firewall detection for perl.exe which is a process used by the OGP Agent.&nbsp;  Grant perl access to public networks, and once the Windows Firewall rule has been created (where you granted access), restart your server, and try connecting the panel to the agent again using the correct encryption key.</p>
+			
+			<p>Create an Inbound Windows Firewall Rule allowing port 21 over TCP as well if you're using OGP to manage FTP via FileZilla.&nbsp; You will also need to set a <a href="images/passive_filezilla_port_settings.png" target="_blank">passive port range</a> for FileZilla Server in Edit -> Settings -> Passive mode settings.&nbsp; For example, I used 2000 to port 2100 for passive connections.&nbsp; Make sure you create an Inbound Rule for these ports as well in Windows Firewall.</p>
+		
+			<p>You will also need to create the appropriate Windows Firewall Inbound and Outbound rules for each individual game server (open the host port, query port[s], and any other ports the game server uses).</p>
 		</div>
 		
 	</body>
