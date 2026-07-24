@@ -159,10 +159,27 @@ fi</pre>
 			<pre class="brush: bash;">sudo sed -i "s/^bind-address.*/bind-address=0.0.0.0/g" "/etc/mysql/mariadb.conf.d/50-server.cnf"</pre>
 		</div>
 		
-		<div class="hideItem hide ubuntu14 ubuntu16 ubuntu18 ubuntu20 ubuntu22 ubuntu24 ubuntu26 debian8 debian9 debian10 debian11 debian12 debian13">
+		<div class="hideItem hide ubuntu14 ubuntu16 ubuntu18 ubuntu20 ubuntu22 ubuntu24 debian8 debian9 debian10 debian11 debian12">
 			<h4 class="selectedOSItem">Configuring the Database for <span class="osText"></span></h4>
 			<p>After installing the prereqs, make sure the root MySQL account has been setup by running this command (may not apply to older versions of Debian / Ubuntu):</p>
 			<pre class="brush: bash;">sudo mysql_secure_installation</pre>
+			<p>When installing MySQL / MariaDB, make sure you answer the following questions like this:</p>
+
+			<pre class="brush: bash;">Switch to unix_socket authentication [Y/n] n (no, don't do this)
+Change the root password? [Y/n] y (yes, do this, and write down the password you use)</pre>
+
+			<p>During this process, you will be prompted to set a root user password. Please choose something secure and write it down, as the installer will ask you for it to create the initial OGP database later.</p>
+			<p>Be sure to write down the root password you used somewhere, as it will be used in the next step!</p>
+			
+			<p>After installing and setting the root password for MySQL / MariaDB server, you can install the phpmyadmin package and configure it (optional):</p>
+			
+			<pre class="brush: bash;">sudo apt-get install phpmyadmin</pre>
+		</div>
+		
+		<div class="ubuntu26 debian13">
+			<h4 class="selectedOSItem">Configuring the Database for <span class="osText"></span></h4>
+			<p>After installing the prereqs, make sure the root MySQL account has been setup by running this command (may not apply to older versions of Debian / Ubuntu):</p>
+			<pre class="brush: bash;">sudo mariadb-secure-installation</pre>
 			<p>When installing MySQL / MariaDB, make sure you answer the following questions like this:</p>
 
 			<pre class="brush: bash;">Switch to unix_socket authentication [Y/n] n (no, don't do this)
