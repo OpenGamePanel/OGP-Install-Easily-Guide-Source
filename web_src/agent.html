@@ -37,7 +37,7 @@
 		
 		<!-- Debian Extra -->
 		
-		<div class="hideItem hide debian8 debian9 debian10 debian11 debian12">
+		<div class="hideItem hide debian8 debian9 debian10 debian11 debian12 debian13">
 			<h4 class="selectedOSItem">Prerequisites for <span class="osText"></span></h4>
 			<p>If sudo is not installed automatically on your installation of Debian, switch to the root user using the below command:</p>
 			
@@ -47,7 +47,7 @@ usermod -aG sudo "{REPLACE_WITH_YOUR_LINUX_USERNAME}"</pre>
 			
 		</div>
 		
-		<div class="hideItem hide debian11 debian12">
+		<div class="hideItem hide debian11 debian12 debian13">
 			<h4 class="selectedOSItem">Additional Requirements for <span class="osText"></span></h4>
 			<p>Unlike other Linux distros, Debian doesn't set the $PATH variable correctly for everyday users.&nbsp; Fix it by using the below script:</p>
 			<p>First, login as root:</p>
@@ -69,7 +69,7 @@ fi</pre>
 		
 		<!-- End Debian Extra -->
 		
-		<div class="hideItem hide debian8 debian9 debian10 debian11 debian12">
+		<div class="hideItem hide debian8 debian9 debian10 debian11 debian12 debian13">
 			<h4 class="selectedOSItem">OGP Agent Packages for <span class="osText"></span></h4>
 
 			<p>Before we can install the deb package for the OGP Agent, we need to install some prerequisites by running the following commands:</p>
@@ -97,7 +97,7 @@ sudo apt-get install lib32gcc-s1
 sudo apt-get install libhttp-daemon-perl</pre>
 		</div>
 
-		<div class="hideItem hide ubuntu14 ubuntu16 ubuntu18 ubuntu20 ubuntu22 ubuntu24 ubuntu26 debian8 debian9 debian10 debian11 debian12">
+		<div class="hideItem hide ubuntu14 ubuntu16 ubuntu18 ubuntu20 ubuntu22 ubuntu24 ubuntu26 debian8 debian9 debian10 debian11 debian12 debian13">
 			<p>
 				Now, we can download and install the OGP Agent DEB package:
 			</p>
@@ -107,7 +107,7 @@ sudo dpkg -i "ogp-agent-latest.deb"</pre>
 		</div>
 
 
-		<div class="hideItem hide ubuntu14 ubuntu16 ubuntu18 ubuntu20 ubuntu22 ubuntu24 ubuntu26 debian8 debian9 debian10 debian11 debian12">
+		<div class="hideItem hide ubuntu14 ubuntu16 ubuntu18 ubuntu20 ubuntu22 ubuntu24 ubuntu26 debian8 debian9 debian10 debian11 debian12 debian13">
 			<p>The OGP agent user (with sudo access) will be created automatically for you by the installer with a random password. To view the automatically generated encryption key, OGP username, and OGP user password, run the following command:</p>
 			<pre class="brush: bash;">sudo cat /root/ogp_user_password</pre>
 			<p>You'll need the encryption key for the panel.</p>

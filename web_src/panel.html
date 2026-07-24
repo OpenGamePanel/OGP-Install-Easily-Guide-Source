@@ -87,7 +87,7 @@
 		
 		<!-- Debian Extra -->
 		
-		<div class="hideItem hide debian8 debian9 debian10 debian11 debian12">
+		<div class="hideItem hide debian8 debian9 debian10 debian11 debian12 debian13">
 			<h4 class="selectedOSItem">Sudo Requirements for <span class="osText"></span></h4>
 			<p>If sudo is not installed automatically on your installation of Debian, switch to the root user using the below command:</p>
 			
@@ -97,7 +97,7 @@ usermod -aG sudo "{REPLACE_WITH_YOUR_LINUX_USERNAME}"</pre>
 			
 		</div>
 		
-		<div class="hideItem hide debian11 debian12">
+		<div class="hideItem hide debian11 debian12 debian13">
 			<h4 class="selectedOSItem">Additional Requirements for <span class="osText"></span></h4>
 			<p>Unlike other Linux distros, Debian doesn't set the $PATH variable correctly for everyday users.&nbsp; Fix it by using the below script:</p>
 			<p>First, login as root:</p>
@@ -143,6 +143,14 @@ fi</pre>
 			<pre class="brush: bash;">sudo sed -i "s/^bind-address.*/bind-address=0.0.0.0/g" "/etc/mysql/mariadb.conf.d/50-server.cnf"</pre>
 		</div>
 		
+		<div class="hideItem hide debian13">
+			<h4 class="selectedOSItem">Prerequisites for <span class="osText"></span></h4>
+			<p>If you are running Debian 13, run the following commands in a terminal:</p>
+			<pre class="brush: bash;">sudo apt-get install apache2 curl subversion php8.4 php8.4-gd php8.4-zip libapache2-mod-php8.4 php8.4-curl php8.4-mysql php8.4-xmlrpc php-pear mariadb-server php8.4-mbstring git php-bcmath</pre>
+			<p>After installing mariadb-server, run this command to get MySQL to bind on all addresses:</p>
+			<pre class="brush: bash;">sudo sed -i "s/^bind-address.*/bind-address=0.0.0.0/g" "/etc/mysql/mariadb.conf.d/50-server.cnf"</pre>
+		</div>
+		
 		<div class="hideItem hide debian11">
 			<h4 class="selectedOSItem">Prerequisites for <span class="osText"></span></h4>
 			<p>If you are running Debian 11, run the following commands in a terminal:</p>
@@ -151,7 +159,7 @@ fi</pre>
 			<pre class="brush: bash;">sudo sed -i "s/^bind-address.*/bind-address=0.0.0.0/g" "/etc/mysql/mariadb.conf.d/50-server.cnf"</pre>
 		</div>
 		
-		<div class="hideItem hide ubuntu14 ubuntu16 ubuntu18 ubuntu20 ubuntu22 ubuntu24 ubuntu26 debian8 debian9 debian10 debian11 debian12">
+		<div class="hideItem hide ubuntu14 ubuntu16 ubuntu18 ubuntu20 ubuntu22 ubuntu24 ubuntu26 debian8 debian9 debian10 debian11 debian12 debian13">
 			<h4 class="selectedOSItem">Configuring the Database for <span class="osText"></span></h4>
 			<p>After installing the prereqs, make sure the root MySQL account has been setup by running this command (may not apply to older versions of Debian / Ubuntu):</p>
 			<pre class="brush: bash;">sudo mysql_secure_installation</pre>
@@ -168,7 +176,7 @@ Change the root password? [Y/n] y (yes, do this, and write down the password you
 			<pre class="brush: bash;">sudo apt-get install phpmyadmin</pre>
 		</div>
 		
-		<div class="hideItem hide ubuntu14 ubuntu16 ubuntu18 ubuntu20 ubuntu22 ubuntu24 ubuntu26 debian8 debian9 debian10 debian11 debian12">
+		<div class="hideItem hide ubuntu14 ubuntu16 ubuntu18 ubuntu20 ubuntu22 ubuntu24 ubuntu26 debian8 debian9 debian10 debian11 debian12 debian13">
 			<h4 class="selectedOSItem">Installing the Panel Package for <span class="osText"></span></h4>
 			<p>Now, we can download and install the latest OGP Web Panel DEB package:</p>
 
