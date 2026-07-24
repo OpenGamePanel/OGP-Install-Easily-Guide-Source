@@ -77,6 +77,14 @@
 			<pre class="brush: bash;">sudo sed -i "s/^bind-address.*/bind-address=0.0.0.0/g" "/etc/mysql/mariadb.conf.d/50-server.cnf"</pre>
 		</div>
 		
+		<div class="hideItem hide ubuntu26">
+			<h4 class="selectedOSItem">Prerequisites for <span class="osText"></span></h4>
+			<p>If you are running Ubuntu 26.04, run the following commands in a terminal:</p>
+			<pre class="brush: bash;">sudo apt-get install apache2 curl subversion php8.5 php8.5-gd php8.5-zip libapache2-mod-php8.5 php8.5-curl php8.5-mysql php8.5-xmlrpc php-pear mariadb-server php8.5-mbstring git php-bcmath</pre>
+			<p>After installing mariadb-server, run this command to get MySQL to bind on all addresses:</p>
+			<pre class="brush: bash;">sudo sed -i "s/^bind-address.*/bind-address=0.0.0.0/g" "/etc/mysql/mariadb.conf.d/50-server.cnf"</pre>
+		</div>
+		
 		<!-- Debian Extra -->
 		
 		<div class="hideItem hide debian8 debian9 debian10 debian11 debian12">
@@ -143,7 +151,7 @@ fi</pre>
 			<pre class="brush: bash;">sudo sed -i "s/^bind-address.*/bind-address=0.0.0.0/g" "/etc/mysql/mariadb.conf.d/50-server.cnf"</pre>
 		</div>
 		
-		<div class="hideItem hide ubuntu14 ubuntu16 ubuntu18 ubuntu20 ubuntu22 ubuntu24 debian8 debian9 debian10 debian11 debian12">
+		<div class="hideItem hide ubuntu14 ubuntu16 ubuntu18 ubuntu20 ubuntu22 ubuntu24 ubuntu26 debian8 debian9 debian10 debian11 debian12">
 			<h4 class="selectedOSItem">Configuring the Database for <span class="osText"></span></h4>
 			<p>After installing the prereqs, make sure the root MySQL account has been setup by running this command (may not apply to older versions of Debian / Ubuntu):</p>
 			<pre class="brush: bash;">sudo mysql_secure_installation</pre>
@@ -160,7 +168,7 @@ Change the root password? [Y/n] y (yes, do this, and write down the password you
 			<pre class="brush: bash;">sudo apt-get install phpmyadmin</pre>
 		</div>
 		
-		<div class="hideItem hide ubuntu14 ubuntu16 ubuntu18 ubuntu20 ubuntu22 ubuntu24 debian8 debian9 debian10 debian11 debian12">
+		<div class="hideItem hide ubuntu14 ubuntu16 ubuntu18 ubuntu20 ubuntu22 ubuntu24 ubuntu26 debian8 debian9 debian10 debian11 debian12">
 			<h4 class="selectedOSItem">Installing the Panel Package for <span class="osText"></span></h4>
 			<p>Now, we can download and install the latest OGP Web Panel DEB package:</p>
 
